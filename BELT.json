@@ -1,0 +1,1851 @@
+{
+ "generated": "2026-10-22T03:36:36Z",
+ "rules": "/home/adversa/.hydra/stack/belt-rules.json",
+ "skills": [
+  {
+   "name": "adversarial-execution",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/adversarial-execution",
+   "bytes": 6993,
+   "tokens": 1748,
+   "desc_tokens": 147,
+   "desc": "Execution-time review gate: before a task or a whole implementation plan is marked done, two independent fres\u2026",
+   "triggers": [
+    "verify before calling it done",
+    "prove it actually works"
+   ],
+   "slots": [
+    "verify"
+   ],
+   "group": "belt",
+   "placed_by": "rule",
+   "note": "independent done-gate for user-facing/high-stakes phases; Claude Code only, else 'self-review only'"
+  },
+  {
+   "name": "baton",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/baton",
+   "bytes": 4626,
+   "tokens": 1156,
+   "desc_tokens": 116,
+   "desc": "Write or resume a session handoff file in `.baton/`.",
+   "triggers": [
+    "hand this off",
+    "pick up where I left off"
+   ],
+   "slots": [
+    "start",
+    "ship"
+   ],
+   "group": "memory",
+   "placed_by": "rule",
+   "note": "grab-check .baton/ first; drop a baton when the next phase won't start this session"
+  },
+  {
+   "name": "call-a-friend",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/call-a-friend",
+   "bytes": 7017,
+   "tokens": 1754,
+   "desc_tokens": 202,
+   "desc": "Get a second opinion from an outside model (DeepSeek, GPT, or a local Ollama/LM Studio model) when Claude is \u2026",
+   "triggers": [
+    "call a friend",
+    "ask deepseek",
+    "message deepseek",
+    "ask gpt",
+    "ask the local model",
+    "second opinion"
+   ],
+   "slots": [
+    "consult"
+   ],
+   "group": "consult",
+   "placed_by": "rule",
+   "note": "manual second opinion (gpt/deepseek/local)"
+  },
+  {
+   "name": "claudeception",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/claudeception",
+   "bytes": 4122,
+   "tokens": 1030,
+   "desc_tokens": 94,
+   "desc": "Turn a hard-won, verified fix or workflow from this session into a reusable Claude Code skill (or update an e\u2026",
+   "triggers": [
+    "save this as a skill",
+    "extract a skill from this",
+    "make this reusable",
+    "what did we learn?"
+   ],
+   "slots": [
+    "learn"
+   ],
+   "group": "learning",
+   "placed_by": "rule",
+   "note": "skill extraction, only past nested-learning's five gates"
+  },
+  {
+   "name": "gsd-hydra",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/gsd-hydra",
+   "bytes": 11702,
+   "tokens": 2926,
+   "desc_tokens": 256,
+   "desc": "The fusion flagship - GSD Core's disciplined delivery spine (the Discuss, Plan, Execute, Verify, Ship phase l\u2026",
+   "triggers": [
+    "gsd",
+    "get shit done",
+    "ship it",
+    "run the loop on this project",
+    "new project",
+    "onboard this codebase"
+   ],
+   "slots": [
+    "start",
+    "discuss",
+    "plan",
+    "execute",
+    "verify",
+    "ship",
+    "learn"
+   ],
+   "group": "spine",
+   "placed_by": "rule",
+   "note": "the spine; reads belt --phase at every station"
+  },
+  {
+   "name": "hydra-belt",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/hydra-belt",
+   "bytes": 2584,
+   "tokens": 646,
+   "desc_tokens": 146,
+   "desc": "The router for every other skill in the hydra stack - at each loop station (start, discuss, plan, execute, ve\u2026",
+   "triggers": [
+    "where does this go",
+    "what's in my belt",
+    "which skills do I have for X"
+   ],
+   "slots": [
+    "start",
+    "ops"
+   ],
+   "group": "ops",
+   "placed_by": "rule",
+   "note": "the router: ~1 KB, the only always-on belt text"
+  },
+  {
+   "name": "hydra-consult",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/hydra-consult",
+   "bytes": 8618,
+   "tokens": 2154,
+   "desc_tokens": 209,
+   "desc": "Automatically get an outside opinion from GPT, DeepSeek or a local model, through a subagent, at the points i\u2026",
+   "triggers": [
+    "get a review",
+    "ask gpt",
+    "ask deepseek",
+    "sanity check this plan",
+    "run it past another model"
+   ],
+   "slots": [
+    "consult",
+    "discuss",
+    "plan",
+    "verify"
+   ],
+   "group": "consult",
+   "placed_by": "rule",
+   "note": "auto second opinion at loop points; routes to call-a-friend"
+  },
+  {
+   "name": "hydra-evolve",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/hydra-evolve",
+   "bytes": 5132,
+   "tokens": 1283,
+   "desc_tokens": 243,
+   "desc": "Self-evolution protocol for the hydra suite - how skills absorb new frameworks they encounter, condense again\u2026",
+   "triggers": [
+    "absorb this",
+    "evolve the skills",
+    "condense",
+    "improve the suite",
+    "asi evolve"
+   ],
+   "slots": [
+    "learn",
+    "ops"
+   ],
+   "group": "learning",
+   "placed_by": "rule",
+   "note": "ABSORB on every new skill/repo; CONDENSE every 3rd absorb"
+  },
+  {
+   "name": "hydra-graph",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/hydra-graph",
+   "bytes": 5117,
+   "tokens": 1279,
+   "desc_tokens": 169,
+   "desc": "Search, read and add to the project knowledge graph (stdlib SQLite - typed nodes and edges built from hydra-m\u2026",
+   "triggers": [
+    "did we try",
+    "what did we decide",
+    "why is it shaped this way",
+    "what contradicts",
+    "check the graph",
+    "recall"
+   ],
+   "slots": [
+    "start",
+    "memory",
+    "learn"
+   ],
+   "group": "memory",
+   "placed_by": "rule",
+   "note": "graph context at start; recall before fan-out; ship-tail at Ship"
+  },
+  {
+   "name": "hydra-mem",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/hydra-mem",
+   "bytes": 3191,
+   "tokens": 798,
+   "desc_tokens": 126,
+   "desc": "Search, read and add to the user's hydra-mem memory store (local SQLite of past insights, decisions, failed p\u2026",
+   "triggers": [
+    "did we try",
+    "what did we decide about",
+    "check memory",
+    "save this to hydra-mem"
+   ],
+   "slots": [
+    "start",
+    "memory"
+   ],
+   "group": "memory",
+   "placed_by": "rule",
+   "note": "raw capture via hooks; lookups via search -> timeline -> get"
+  },
+  {
+   "name": "hydra-setup",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/hydra-setup",
+   "bytes": 5019,
+   "tokens": 1255,
+   "desc_tokens": 279,
+   "desc": "Self-healing installer and doctor for the GSD-Hydra stack, system-agnostic - detects the runtime (Claude Code\u2026",
+   "triggers": [
+    "set up hydra",
+    "install the stack",
+    "hydra doctor",
+    "fix my skills",
+    "something is broken in my setup",
+    "install gsd"
+   ],
+   "slots": [
+    "ops"
+   ],
+   "group": "ops",
+   "placed_by": "rule"
+  },
+  {
+   "name": "hydra-swarm",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/hydra-swarm",
+   "bytes": 7395,
+   "tokens": 1849,
+   "desc_tokens": 251,
+   "desc": "Fractal task orchestration across scales, translating the Fractal Hydra Swarm into real Claude runtimes.",
+   "triggers": [
+    "swarm",
+    "fractal",
+    "hydra swarm",
+    "break this into a task tree",
+    "orchestrate this project",
+    "parallelize this work"
+   ],
+   "slots": [
+    "execute"
+   ],
+   "group": "engine",
+   "placed_by": "rule",
+   "note": "Prime/Hub/Leaf waves; graph contract + admission control (absorbed 2026-10-21)"
+  },
+  {
+   "name": "karpathy-guidelines",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/karpathy-guidelines",
+   "bytes": 2518,
+   "tokens": 630,
+   "desc_tokens": 55,
+   "desc": "Behavioral guidelines to reduce common LLM coding mistakes.",
+   "triggers": [],
+   "slots": [
+    "plan",
+    "execute"
+   ],
+   "group": "style",
+   "placed_by": "rule",
+   "note": "surface assumptions in Plan; surgical changes + goal-driven loop in Execute. Overlaps CLAUDE.md 'keep diffs to the task' - one home: CLAUDE.md states the rule, this skill carries the checklist"
+  },
+  {
+   "name": "modulated-loop-orchestrator",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/modulated-loop-orchestrator",
+   "bytes": 19387,
+   "tokens": 4847,
+   "desc_tokens": 256,
+   "desc": "Deep-reasoning workflow fusing five systems in one claude.ai-native loop - (1) recursive orchestration (decom\u2026",
+   "triggers": [
+    "execute workflow",
+    "orchestrate",
+    "hydra",
+    "shadow clone",
+    "ABP",
+    "loop engineer"
+   ],
+   "slots": [
+    "discuss",
+    "plan",
+    "verify"
+   ],
+   "group": "engine",
+   "placed_by": "rule",
+   "note": "Phase 0 router + fan-out in Discuss; Build Track gate in Plan; Baseline Check + critique in Verify"
+  },
+  {
+   "name": "napkin",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/napkin",
+   "bytes": 2003,
+   "tokens": 501,
+   "desc_tokens": 62,
+   "desc": "Per-repo runbook of recurring gotchas at .claude/napkin.md: read and apply it, curate it (priority-sorted cat\u2026",
+   "triggers": [
+    "Do instead"
+   ],
+   "slots": [
+    "start",
+    "execute"
+   ],
+   "group": "memory",
+   "placed_by": "rule",
+   "note": "read .claude/napkin.md at start as a failed_path source"
+  },
+  {
+   "name": "nested-learning",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/nested-learning",
+   "bytes": 8869,
+   "tokens": 2217,
+   "desc_tokens": 252,
+   "desc": "Meta-learning loops for orchestrated work - the system gets better at learning, not just at tasks.",
+   "triggers": [
+    "retro",
+    "retrospective",
+    "meta-learning",
+    "nested learning",
+    "claudeception",
+    "save what we learned as a skill"
+   ],
+   "slots": [
+    "learn"
+   ],
+   "group": "learning",
+   "placed_by": "rule"
+  },
+  {
+   "name": "razor",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/razor",
+   "bytes": 4561,
+   "tokens": 1140,
+   "desc_tokens": 85,
+   "desc": "Minimize a branch's local diff against its merge base using only behavior-preserving, scope-preserving archit\u2026",
+   "triggers": [],
+   "slots": [
+    "execute",
+    "verify"
+   ],
+   "group": "belt",
+   "placed_by": "rule",
+   "note": "scope discipline; declined cuts -> FAILED PATHS"
+  },
+  {
+   "name": "research-verification",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/research-verification",
+   "bytes": 3865,
+   "tokens": 966,
+   "desc_tokens": 189,
+   "desc": "A gate that runs before any claim, number, count, or ranking is written into a document, artifact, graph node\u2026",
+   "triggers": [
+    "should",
+    "probably",
+    "seems to"
+   ],
+   "slots": [
+    "gate",
+    "verify",
+    "ship"
+   ],
+   "group": "gate",
+   "placed_by": "rule",
+   "note": "before any number/claim/count is written"
+  },
+  {
+   "name": "schematic",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/schematic",
+   "bytes": 6740,
+   "tokens": 1685,
+   "desc_tokens": 166,
+   "desc": "Reverse engineer a detailed product and technical specification document from a git branch's implementation.",
+   "triggers": [
+    "analyze this branch",
+    "write a spec from the code",
+    "document what this\nbranch does"
+   ],
+   "slots": [
+    "plan"
+   ],
+   "group": "belt",
+   "placed_by": "rule",
+   "note": "brownfield only: branch diff -> spec before Specify"
+  },
+  {
+   "name": "setup-audit",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/setup-audit",
+   "bytes": 29197,
+   "tokens": 7299,
+   "desc_tokens": 231,
+   "desc": "Audit the user's Claude Code configuration and usage (user and per-project settings, permissions, hooks, MCP \u2026",
+   "triggers": [
+    "audit"
+   ],
+   "slots": [
+    "ops",
+    "plan",
+    "learn"
+   ],
+   "group": "ops",
+   "placed_by": "rule",
+   "note": "ops: after install and when sessions get expensive; plan: agent-readiness check on a new repo (/gsd-onboard); learn: repeated-mistake findings feed nested-learning RETRO"
+  },
+  {
+   "name": "taskmaster",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/taskmaster",
+   "bytes": 1595,
+   "tokens": 399,
+   "desc_tokens": 32,
+   "desc": "Codex wrapper plus same-process expect PTY injector that keeps work moving until an explicit parseable done s\u2026",
+   "triggers": [],
+   "slots": [
+    "unplaced"
+   ],
+   "group": "unknown",
+   "placed_by": "none"
+  },
+  {
+   "name": "theorist",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/theorist",
+   "bytes": 2725,
+   "tokens": 681,
+   "desc_tokens": 69,
+   "desc": "Keep THEORY.MD at the repo root as a short, rewritten-in-place narrative of the operating theory behind the c\u2026",
+   "triggers": [],
+   "slots": [
+    "start",
+    "learn"
+   ],
+   "group": "memory",
+   "placed_by": "rule",
+   "note": "theory-keeper defers to it when installed (THEORY.MD home)"
+  },
+  {
+   "name": "theory-keeper",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/theory-keeper",
+   "bytes": 5655,
+   "tokens": 1414,
+   "desc_tokens": 244,
+   "desc": "Maintains a per-project operating theory - the durable why behind ongoing work - completing the suite memory \u2026",
+   "triggers": [
+    "operating theory",
+    "update the theory",
+    "why is the system shaped this way",
+    "what changed in our understanding"
+   ],
+   "slots": [
+    "start",
+    "learn"
+   ],
+   "group": "memory",
+   "placed_by": "rule"
+  },
+  {
+   "name": "veritas",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/veritas",
+   "bytes": 5916,
+   "tokens": 1479,
+   "desc_tokens": 155,
+   "desc": "Upload completeness auditor for claude.ai.",
+   "triggers": [
+    "verify everything",
+    "did you read X",
+    "what did you miss",
+    "audit uploads",
+    "progress report",
+    "did you check all of them"
+   ],
+   "slots": [
+    "gate",
+    "start"
+   ],
+   "group": "gate",
+   "placed_by": "rule",
+   "note": "every upload audited before work starts"
+  },
+  {
+   "name": "wisdom-memory",
+   "tier": "installed",
+   "path": "/home/adversa/.claude/skills/wisdom-memory",
+   "bytes": 10848,
+   "tokens": 2712,
+   "desc_tokens": 250,
+   "desc": "Persistence layer for the hydra suite - the Wisdom Bank made real.",
+   "triggers": [
+    "remember this",
+    "save this insight",
+    "what did we learn about X",
+    "have we solved this before",
+    "search memory",
+    "wisdom bank"
+   ],
+   "slots": [
+    "start",
+    "learn",
+    "memory"
+   ],
+   "group": "memory",
+   "placed_by": "rule",
+   "note": "Tier 2 is now hydra-graph; Tier 3 (claude.ai) unchanged"
+  },
+  {
+   "name": "accessibility-review",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/accessibility-review",
+   "bytes": 4272,
+   "tokens": 1068,
+   "desc_tokens": 65,
+   "desc": "Run a WCAG 2.1 AA accessibility audit on a design or page.",
+   "triggers": [
+    "audit accessibility",
+    "check a11y",
+    "is this accessible?"
+   ],
+   "slots": [
+    "verify"
+   ],
+   "group": "design",
+   "placed_by": "rule",
+   "note": "UI/UX domain: WCAG 2.1 AA pass beside the done-gate"
+  },
+  {
+   "name": "brainstorming",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/brainstorming",
+   "bytes": 10073,
+   "tokens": 2518,
+   "desc_tokens": 53,
+   "desc": "You MUST use this before any creative work - creating features, building components, adding functionality, mo\u2026",
+   "triggers": [],
+   "slots": [
+    "discuss"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule",
+   "note": "superpowers; spine-level - use when GSD is not the spine (claude.ai native loop)"
+  },
+  {
+   "name": "context-compact",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/context-compact",
+   "bytes": 4562,
+   "tokens": 1140,
+   "desc_tokens": 188,
+   "desc": "Harvest a live session's findings into a research-base graph so the transcript becomes disposable.",
+   "triggers": [
+    "compact the context",
+    "graph what we found",
+    "save this before it folds",
+    "free up context",
+    "add this to the vault",
+    "the session is getting long"
+   ],
+   "slots": [
+    "learn",
+    "memory"
+   ],
+   "group": "learning",
+   "placed_by": "rule",
+   "note": "harvest a long session into the graph at checkpoints"
+  },
+  {
+   "name": "design-critique",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/design-critique",
+   "bytes": 3917,
+   "tokens": 979,
+   "desc_tokens": 68,
+   "desc": "Get structured design feedback on usability, hierarchy, and consistency.",
+   "triggers": [
+    "review this design",
+    "critique this mockup",
+    "what do you think of this screen?"
+   ],
+   "slots": [
+    "discuss"
+   ],
+   "group": "design",
+   "placed_by": "rule",
+   "note": "UI/UX domain: critique the mockup before Plan"
+  },
+  {
+   "name": "design-handoff",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/design-handoff",
+   "bytes": 3947,
+   "tokens": 987,
+   "desc_tokens": 60,
+   "desc": "Generate developer handoff specs from a design.",
+   "triggers": [],
+   "slots": [
+    "ship"
+   ],
+   "group": "design",
+   "placed_by": "rule",
+   "note": "UI/UX domain: spec sheet is the Ship artifact for designs"
+  },
+  {
+   "name": "design-system",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/design-system",
+   "bytes": 5594,
+   "tokens": 1398,
+   "desc_tokens": 68,
+   "desc": "Audit, document, or extend your design system.",
+   "triggers": [],
+   "slots": [
+    "plan"
+   ],
+   "group": "design",
+   "placed_by": "rule",
+   "note": "UI/UX domain: tokens/components consistency gate in Plan"
+  },
+  {
+   "name": "diagnosing-superpowers",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/diagnosing-superpowers",
+   "bytes": 6941,
+   "tokens": 1735,
+   "desc_tokens": 94,
+   "desc": "Use when a superpowers session went wrong and your human partner wants to know why \u2014 repeated work, ignored p\u2026",
+   "triggers": [
+    "it took too long",
+    "why is it so expensive",
+    "what is it doing"
+   ],
+   "slots": [
+    "ops"
+   ],
+   "group": "ops",
+   "placed_by": "rule"
+  },
+  {
+   "name": "dispatching-parallel-agents",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/dispatching-parallel-agents",
+   "bytes": 6078,
+   "tokens": 1520,
+   "desc_tokens": 26,
+   "desc": "Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies",
+   "triggers": [],
+   "slots": [
+    "execute"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule",
+   "note": "superpowers; Claude Code only; maps to swarm Hubs"
+  },
+  {
+   "name": "executing-plans",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/executing-plans",
+   "bytes": 20405,
+   "tokens": 5101,
+   "desc_tokens": 42,
+   "desc": "Use when executing an implementation plan in the current session as the implementer yourself \u2014 your human par\u2026",
+   "triggers": [],
+   "slots": [
+    "execute"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule",
+   "note": "superpowers; spine-level - GSD owns Execute when installed"
+  },
+  {
+   "name": "finishing-a-development-branch",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/finishing-a-development-branch",
+   "bytes": 7781,
+   "tokens": 1945,
+   "desc_tokens": 25,
+   "desc": "Use when implementation is complete, all tests pass, and you need to decide how to integrate the work",
+   "triggers": [],
+   "slots": [
+    "ship"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule"
+  },
+  {
+   "name": "grace-ask",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-ask",
+   "bytes": 1026,
+   "tokens": 256,
+   "desc_tokens": 29,
+   "desc": "Answer questions about a GRACE 4 project by navigating .grace current-state artifacts and file-local semantic\u2026",
+   "triggers": [],
+   "slots": [
+    "start",
+    "memory",
+    "discuss"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "the 'project expert': cited answers from .grace/ graph + contracts; organ-level, fires only when a project has .grace/ (mcpmarket listing = this skill)"
+  },
+  {
+   "name": "grace-cli",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-cli",
+   "bytes": 4038,
+   "tokens": 1010,
+   "desc_tokens": 32,
+   "desc": "Operate the GRACE 4 CLI for .grace linting, status, module navigation, verification navigation, and file-loca\u2026",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "optional Bun CLI (@osovv/grace-cli); skills work without it"
+  },
+  {
+   "name": "grace-execute",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-execute",
+   "bytes": 3351,
+   "tokens": 838,
+   "desc_tokens": 35,
+   "desc": "Execute an approved GRACE 4 GraceChangePlan in sequential or parallel-safe mode with recovery-aware preflight\u2026",
+   "triggers": [],
+   "slots": [
+    "execute"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. "
+  },
+  {
+   "name": "grace-explainer",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-explainer",
+   "bytes": 1190,
+   "tokens": 298,
+   "desc_tokens": 30,
+   "desc": "Explain GRACE 4 methodology, .grace artifacts, semantic anchors, change lifecycle, verification, and migratio\u2026",
+   "triggers": [],
+   "slots": [
+    "ops"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "explains the GRACE methodology; read before adopting it as a spine"
+  },
+  {
+   "name": "grace-fix",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-fix",
+   "bytes": 786,
+   "tokens": 196,
+   "desc_tokens": 28,
+   "desc": "Debug and fix issues in a GRACE 4 project using .grace semantic navigation, assertions, and verification evid\u2026",
+   "triggers": [],
+   "slots": [
+    "verify"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "debug with .grace navigation + assertion evidence"
+  },
+  {
+   "name": "grace-init",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-init",
+   "bytes": 2978,
+   "tokens": 744,
+   "desc_tokens": 29,
+   "desc": "Bootstrap a Full GRACE 4 project by creating the canonical .grace context, graph, verification, and changes s\u2026",
+   "triggers": [],
+   "slots": [
+    "ops"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. init creates .grace/ - adopting it means GRACE owns Spec/Plan/Execute/Verify for that repo"
+  },
+  {
+   "name": "grace-migrate",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-migrate",
+   "bytes": 2824,
+   "tokens": 706,
+   "desc_tokens": 29,
+   "desc": "Agent-applied GRACE 3 to GRACE 4 migration workflow.",
+   "triggers": [],
+   "slots": [
+    "ops"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "GRACE 3 -> 4 only"
+  },
+  {
+   "name": "grace-plan",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-plan",
+   "bytes": 3909,
+   "tokens": 977,
+   "desc_tokens": 39,
+   "desc": "Read an approved GRACE 4 GraceChangeSpec and optional design context, then create a GraceChangePlan with asse\u2026",
+   "triggers": [],
+   "slots": [
+    "plan"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. GraceChangePlan with assertions/scopes/gates"
+  },
+  {
+   "name": "grace-refactor",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-refactor",
+   "bytes": 888,
+   "tokens": 222,
+   "desc_tokens": 31,
+   "desc": "Refactor GRACE 4 governed code while keeping .grace graph, verification, change scopes, and file-local anchor\u2026",
+   "triggers": [],
+   "slots": [
+    "execute"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. "
+  },
+  {
+   "name": "grace-refresh",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-refresh",
+   "bytes": 1137,
+   "tokens": 284,
+   "desc_tokens": 32,
+   "desc": "Detect drift between observed repository state and durable GRACE 4 .grace current state, then help create rec\u2026",
+   "triggers": [],
+   "slots": [
+    "learn"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "drift between repo and .grace current state -> reconciliation change; the GRACE twin of hydra-setup's drift check"
+  },
+  {
+   "name": "grace-reviewer",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-reviewer",
+   "bytes": 1024,
+   "tokens": 256,
+   "desc_tokens": 32,
+   "desc": "Review GRACE 4 integrity across .grace artifacts, active changes, scopes, assertions, code anchors, and verif\u2026",
+   "triggers": [],
+   "slots": [
+    "verify"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. "
+  },
+  {
+   "name": "grace-setup-subagents",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-setup-subagents",
+   "bytes": 708,
+   "tokens": 177,
+   "desc_tokens": 33,
+   "desc": "Create GRACE 4 worker and reviewer subagent presets that understand .grace artifacts, scopes, assertions, and\u2026",
+   "triggers": [],
+   "slots": [
+    "ops"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "Claude Code subagent presets; TENSION with GSD's own agents"
+  },
+  {
+   "name": "grace-spec",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-spec",
+   "bytes": 2185,
+   "tokens": 546,
+   "desc_tokens": 33,
+   "desc": "Interview the user and create an approved GRACE 4 GraceChangeSpec plus optional design-context.xml inside .gr\u2026",
+   "triggers": [],
+   "slots": [
+    "discuss",
+    "plan"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. GraceChangeSpec = its Specify step"
+  },
+  {
+   "name": "grace-status",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-status",
+   "bytes": 1556,
+   "tokens": 389,
+   "desc_tokens": 30,
+   "desc": "Show GRACE 4 project health across .grace context, graph, verification, active changes, scopes, and migration\u2026",
+   "triggers": [],
+   "slots": [
+    "start",
+    "ops"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "project health across .grace/; organ-level"
+  },
+  {
+   "name": "grace-verification",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grace-verification",
+   "bytes": 2675,
+   "tokens": 669,
+   "desc_tokens": 32,
+   "desc": "Design and maintain GRACE 4 verification entries, commands, scenarios, markers, and assertion evidence under \u2026",
+   "triggers": [],
+   "slots": [
+    "verify"
+   ],
+   "group": "grace",
+   "placed_by": "rule",
+   "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. deterministic V-M-* entries = its done-gate evidence"
+  },
+  {
+   "name": "grow-as-we-go",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/grow-as-we-go",
+   "bytes": 4210,
+   "tokens": 1052,
+   "desc_tokens": 205,
+   "desc": "Runs at the END of a skill's use, not the start.",
+   "triggers": [
+    "did that skill work",
+    "review that skill",
+    "what did it miss",
+    "log a defect",
+    "grow as we go"
+   ],
+   "slots": [
+    "learn"
+   ],
+   "group": "learning",
+   "placed_by": "rule",
+   "note": "after any skill runs: promised vs produced -> defect node"
+  },
+  {
+   "name": "neo4j-agent-memory-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-agent-memory-skill",
+   "bytes": 23252,
+   "tokens": 5813,
+   "desc_tokens": 236,
+   "desc": "Authoritative reference for the neo4j-agent-memory Python package \u2014 a graph-native memory system for AI agent\u2026",
+   "triggers": [],
+   "slots": [
+    "memory"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-aura-agent-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-aura-agent-skill",
+   "bytes": 17605,
+   "tokens": 4401,
+   "desc_tokens": 22,
+   "desc": "Manages Neo4j Aura Agents via the v2beta1 REST API \u2014 create, list, get, update, delete,",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-aura-graph-analytics-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-aura-graph-analytics-skill",
+   "bytes": 19457,
+   "tokens": 4864,
+   "desc_tokens": 18,
+   "desc": "Serverless Aura Graph Analytics (AGA) GDS Sessions \u2014 covers GdsSessions,",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. PAID cloud - off by default"
+  },
+  {
+   "name": "neo4j-aura-provisioning-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-aura-provisioning-skill",
+   "bytes": 15106,
+   "tokens": 3776,
+   "desc_tokens": 20,
+   "desc": "Provisions and manages Neo4j Aura instances via CLI (aura-cli v1.7+) or REST API.",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. PAID cloud provisioning - never run by hydra-setup"
+  },
+  {
+   "name": "neo4j-cli-tools-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-cli-tools-skill",
+   "bytes": 10762,
+   "tokens": 2690,
+   "desc_tokens": 18,
+   "desc": "Use when working with Neo4j command-line tools \u2014 neo4j-cli (modern unified",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-cypher-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-cypher-skill",
+   "bytes": 24677,
+   "tokens": 6169,
+   "desc_tokens": 20,
+   "desc": "Generates, optimizes, and validates Cypher 25 queries for Neo4j 2025.x and 2026.x.",
+   "triggers": [],
+   "slots": [
+    "tool",
+    "execute"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-document-import-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-document-import-skill",
+   "bytes": 21676,
+   "tokens": 5419,
+   "desc_tokens": 21,
+   "desc": "Ingests unstructured and semi-structured documents into Neo4j as a knowledge graph.",
+   "triggers": [],
+   "slots": [
+    "memory",
+    "learn"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-driver-dotnet-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-driver-dotnet-skill",
+   "bytes": 18218,
+   "tokens": 4554,
+   "desc_tokens": 22,
+   "desc": "Neo4j .NET Driver v6 \u2014 IDriver lifecycle, DI registration (singleton), ExecutableQuery",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-driver-go-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-driver-go-skill",
+   "bytes": 15357,
+   "tokens": 3839,
+   "desc_tokens": 19,
+   "desc": "Covers the Neo4j Go Driver v6 \u2014 driver lifecycle, ExecuteQuery, managed and",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-driver-java-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-driver-java-skill",
+   "bytes": 17016,
+   "tokens": 4254,
+   "desc_tokens": 19,
+   "desc": "Neo4j Java Driver v6 \u2014 driver lifecycle, Maven/Gradle setup, executableQuery,",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-driver-javascript-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-driver-javascript-skill",
+   "bytes": 14260,
+   "tokens": 3565,
+   "desc_tokens": 18,
+   "desc": "Neo4j JavaScript/TypeScript Driver v6 \u2014 driver lifecycle, executeQuery,",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-driver-python-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-driver-python-skill",
+   "bytes": 17331,
+   "tokens": 4333,
+   "desc_tokens": 20,
+   "desc": "Neo4j Python Driver v6 \u2014 driver lifecycle, execute_query, managed and explicit",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-gds-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-gds-skill",
+   "bytes": 20192,
+   "tokens": 5048,
+   "desc_tokens": 19,
+   "desc": "Neo4j Graph Data Science (GDS) embedded plugin via Python client or Cypher \u2014",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-genai-plugin-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-genai-plugin-skill",
+   "bytes": 12175,
+   "tokens": 3044,
+   "desc_tokens": 18,
+   "desc": "Use Neo4j GenAI Plugin ai.text.* functions and procedures for in-Cypher",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-getting-started-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-getting-started-skill",
+   "bytes": 17706,
+   "tokens": 4426,
+   "desc_tokens": 18,
+   "desc": "Orchestrates zero-to-running-app in 8 stages \u2014 prerequisites \u2192 context \u2192",
+   "triggers": [],
+   "slots": [
+    "ops"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-graphql-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-graphql-skill",
+   "bytes": 15383,
+   "tokens": 3846,
+   "desc_tokens": 24,
+   "desc": "Build and configure a GraphQL API backed by Neo4j using @neo4j/graphql v7 (current) or v5 (LTS).",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-graphrag-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-graphrag-skill",
+   "bytes": 17047,
+   "tokens": 4262,
+   "desc_tokens": 19,
+   "desc": "Build GraphRAG retrieval pipelines on Neo4j using the neo4j-graphrag Python",
+   "triggers": [],
+   "slots": [
+    "memory"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-import-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-import-skill",
+   "bytes": 19846,
+   "tokens": 4962,
+   "desc_tokens": 20,
+   "desc": "Import structured data into Neo4j \u2014 LOAD CSV, CALL IN TRANSACTIONS, neo4j-admin",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-kafka-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-kafka-skill",
+   "bytes": 14986,
+   "tokens": 3746,
+   "desc_tokens": 19,
+   "desc": "Configure and operate the Neo4j Connector for Kafka (sink + source) and the",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-mcp-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-mcp-skill",
+   "bytes": 11920,
+   "tokens": 2980,
+   "desc_tokens": 20,
+   "desc": "Use when installing, configuring, or troubleshooting the official Neo4j MCP server",
+   "triggers": [],
+   "slots": [
+    "ops"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-migration-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-migration-skill",
+   "bytes": 17306,
+   "tokens": 4326,
+   "desc_tokens": 19,
+   "desc": "Migrates Neo4j driver code and Cypher queries from older versions (4.x, 5.x)",
+   "triggers": [],
+   "slots": [
+    "ops"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-modeling-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-modeling-skill",
+   "bytes": 16265,
+   "tokens": 4066,
+   "desc_tokens": 19,
+   "desc": "Design, review, and refactor Neo4j graph data models.",
+   "triggers": [],
+   "slots": [
+    "plan"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-nvl-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-nvl-skill",
+   "bytes": 20076,
+   "tokens": 5019,
+   "desc_tokens": 22,
+   "desc": "Neo4j Visualization Library (NVL) \u2014 framework-agnostic graph rendering for the browser.",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-query-tuning-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-query-tuning-skill",
+   "bytes": 10491,
+   "tokens": 2623,
+   "desc_tokens": 21,
+   "desc": "Diagnoses and fixes slow Neo4j Cypher queries by reading execution plans, identifying",
+   "triggers": [],
+   "slots": [
+    "verify"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-security-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-security-skill",
+   "bytes": 16755,
+   "tokens": 4189,
+   "desc_tokens": 24,
+   "desc": "Programmatic security management in Neo4j \u2014 RBAC/ABAC, user lifecycle (CREATE/ALTER/DROP USER),",
+   "triggers": [],
+   "slots": [
+    "verify"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "neo4j-snowflake-graph-analytics-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-snowflake-graph-analytics-skill",
+   "bytes": 28068,
+   "tokens": 7017,
+   "desc_tokens": 19,
+   "desc": "Run Neo4j Graph Analytics algorithms (PageRank, Louvain, WCC, Dijkstra, KNN,",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-spark-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-spark-skill",
+   "bytes": 16300,
+   "tokens": 4075,
+   "desc_tokens": 21,
+   "desc": "Use when reading from or writing to Neo4j with Apache Spark or Databricks using the",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-spring-data-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-spring-data-skill",
+   "bytes": 14961,
+   "tokens": 3740,
+   "desc_tokens": 23,
+   "desc": "Use when building Spring Boot applications with Neo4j using Spring Data Neo4j (SDN 7.x/8.x) \u2014",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+  },
+  {
+   "name": "neo4j-vector-index-skill",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/neo4j-vector-index-skill",
+   "bytes": 22889,
+   "tokens": 5722,
+   "desc_tokens": 20,
+   "desc": "Create and manage Neo4j vector indexes, run vector similarity search (ANN/kNN),",
+   "triggers": [],
+   "slots": [
+    "memory"
+   ],
+   "group": "neo4j",
+   "placed_by": "rule",
+   "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+  },
+  {
+   "name": "opera-browser-cli",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/opera-browser-cli",
+   "bytes": 8285,
+   "tokens": 2071,
+   "desc_tokens": 86,
+   "desc": "Browser automation and web interaction in an Opera browser using the opera-browser-cli tool.",
+   "triggers": [],
+   "slots": [
+    "tool"
+   ],
+   "group": "tool",
+   "placed_by": "rule",
+   "note": "browser evidence for adversarial-execution's UI checks"
+  },
+  {
+   "name": "ponytail",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/ponytail",
+   "bytes": 3496,
+   "tokens": 874,
+   "desc_tokens": 92,
+   "desc": "Lazy senior dev mode: the smallest change that fully solves the task, and a reply a busy human understands in\u2026",
+   "triggers": [
+    "ponytail",
+    "be lazy",
+    "simplest solution",
+    "yagni"
+   ],
+   "slots": [
+    "execute"
+   ],
+   "group": "style",
+   "placed_by": "rule",
+   "note": "lazy-senior-dev mode for the Implement step; its SessionStart hook injects ~3.5 KB every session - install the skill, enable the hook only if you want the mode flag"
+  },
+  {
+   "name": "ponytail-audit",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/ponytail-audit",
+   "bytes": 5417,
+   "tokens": 1354,
+   "desc_tokens": 86,
+   "desc": "Quality audit of a whole repo: bugs, security holes, what breaks under real load, risky code without tests, s\u2026",
+   "triggers": [
+    "audit this codebase",
+    "review the whole repo",
+    "find bloat",
+    "what can I delete"
+   ],
+   "slots": [
+    "plan"
+   ],
+   "group": "style",
+   "placed_by": "rule",
+   "note": "brownfield whole-repo audit before planning; pairs with schematic"
+  },
+  {
+   "name": "ponytail-debt",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/ponytail-debt",
+   "bytes": 1769,
+   "tokens": 442,
+   "desc_tokens": 50,
+   "desc": "List every `shortcut:` comment (and older `ponytail:` ones) as a debt ledger.",
+   "triggers": [
+    "ponytail debt",
+    "what did ponytail defer",
+    "list the shortcuts"
+   ],
+   "slots": [
+    "learn"
+   ],
+   "group": "learning",
+   "placed_by": "rule",
+   "note": "shortcut: ledger -> failed_path/defect nodes at RETRO"
+  },
+  {
+   "name": "ponytail-gain",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/ponytail-gain",
+   "bytes": 2164,
+   "tokens": 541,
+   "desc_tokens": 40,
+   "desc": "Show ponytail's measured savings (code, cost, speed) from the benchmark.",
+   "triggers": [
+    "what does ponytail save",
+    "ponytail impact"
+   ],
+   "slots": [
+    "tool"
+   ],
+   "group": "ops",
+   "placed_by": "rule",
+   "note": "one-shot scoreboard; its numbers are the vendor's benchmark [U]"
+  },
+  {
+   "name": "ponytail-help",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/ponytail-help",
+   "bytes": 3188,
+   "tokens": 797,
+   "desc_tokens": 35,
+   "desc": "Quick reference for ponytail levels, skills and commands.",
+   "triggers": [
+    "ponytail help",
+    "how do I use ponytail"
+   ],
+   "slots": [
+    "ops"
+   ],
+   "group": "ops",
+   "placed_by": "rule"
+  },
+  {
+   "name": "ponytail-review",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/ponytail-review",
+   "bytes": 5143,
+   "tokens": 1286,
+   "desc_tokens": 92,
+   "desc": "Quality review of a change: is the logic right, is it safe, does it hold under real load, is risky code teste\u2026",
+   "triggers": [
+    "review this",
+    "code review",
+    "review the last commit",
+    "review my PR",
+    "is this over-engineered"
+   ],
+   "slots": [
+    "verify"
+   ],
+   "group": "style",
+   "placed_by": "rule",
+   "note": "second-stage (code quality) review after spec-compliance review"
+  },
+  {
+   "name": "receiving-code-review",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/receiving-code-review",
+   "bytes": 6203,
+   "tokens": 1551,
+   "desc_tokens": 58,
+   "desc": "Use when receiving code review feedback, before implementing suggestions, especially if feedback seems unclea\u2026",
+   "triggers": [],
+   "slots": [
+    "verify"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule"
+  },
+  {
+   "name": "requesting-code-review",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/requesting-code-review",
+   "bytes": 2974,
+   "tokens": 744,
+   "desc_tokens": 27,
+   "desc": "Use when completing tasks, implementing major features, or before merging to verify work meets requirements",
+   "triggers": [],
+   "slots": [
+    "verify"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule"
+  },
+  {
+   "name": "research-base",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/research-base",
+   "bytes": 3409,
+   "tokens": 852,
+   "desc_tokens": 154,
+   "desc": "Session-agnostic loader for a graphed research base (theory + curated runbook + typed-edge SQLite graph) buil\u2026",
+   "triggers": [
+    "load the research base",
+    "what did we establish",
+    "resume the knights corner project",
+    "check the vault",
+    "what gates progress",
+    "what cuts against the thesis"
+   ],
+   "slots": [
+    "start",
+    "memory"
+   ],
+   "group": "memory",
+   "placed_by": "rule",
+   "note": "ARS domain: load the research graph at start; same nodes/edges shape as hydra-graph"
+  },
+  {
+   "name": "research-harvest-verified",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/research-harvest-verified",
+   "bytes": 6163,
+   "tokens": 1541,
+   "desc_tokens": 242,
+   "desc": "Extract findings from a long conversation transcript into a typed research graph (research-base's graph.db fo\u2026",
+   "triggers": [
+    "harvest this session",
+    "extract findings and merge to the graph",
+    "check in before the fold"
+   ],
+   "slots": [
+    "learn",
+    "memory"
+   ],
+   "group": "learning",
+   "placed_by": "rule",
+   "note": "structured harvest with grounding gate; writes hydra-graph's tables"
+  },
+  {
+   "name": "research-synthesis",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/research-synthesis",
+   "bytes": 3008,
+   "tokens": 752,
+   "desc_tokens": 66,
+   "desc": "Synthesize user research into themes, insights, and recommendations.",
+   "triggers": [],
+   "slots": [
+    "discuss"
+   ],
+   "group": "design",
+   "placed_by": "rule",
+   "note": "UI/UX domain: transcripts/tickets -> themes -> decision record"
+  },
+  {
+   "name": "subagent-driven-development",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/subagent-driven-development",
+   "bytes": 32577,
+   "tokens": 8144,
+   "desc_tokens": 21,
+   "desc": "Use when executing implementation plans with independent tasks in the current session",
+   "triggers": [],
+   "slots": [
+    "execute"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule",
+   "note": "superpowers; Claude Code only"
+  },
+  {
+   "name": "systematic-debugging",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/systematic-debugging",
+   "bytes": 9530,
+   "tokens": 2382,
+   "desc_tokens": 23,
+   "desc": "Use when encountering any bug, test failure, or unexpected behavior, before proposing fixes",
+   "triggers": [],
+   "slots": [
+    "verify"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule",
+   "note": "superpowers; run when Verify fails, before any fix plan"
+  },
+  {
+   "name": "test-driven-development",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/test-driven-development",
+   "bytes": 9578,
+   "tokens": 2394,
+   "desc_tokens": 20,
+   "desc": "Use when implementing any feature or bugfix, before writing implementation code",
+   "triggers": [],
+   "slots": [
+    "execute"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule",
+   "note": "superpowers; red-first rule's source"
+  },
+  {
+   "name": "user-research",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/user-research",
+   "bytes": 1751,
+   "tokens": 438,
+   "desc_tokens": 62,
+   "desc": "Plan, conduct, and synthesize user research.",
+   "triggers": [
+    "user research plan",
+    "interview guide",
+    "usability test",
+    "survey design",
+    "research questions"
+   ],
+   "slots": [
+    "discuss"
+   ],
+   "group": "design",
+   "placed_by": "rule",
+   "note": "UI/UX domain: research plan / interview guide feeds Discuss"
+  },
+  {
+   "name": "using-git-worktrees",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/using-git-worktrees",
+   "bytes": 6813,
+   "tokens": 1703,
+   "desc_tokens": 49,
+   "desc": "Use when starting feature work that needs isolation from current workspace or before executing implementation\u2026",
+   "triggers": [],
+   "slots": [
+    "execute"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule"
+  },
+  {
+   "name": "using-superpowers",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/using-superpowers",
+   "bytes": 3192,
+   "tokens": 798,
+   "desc_tokens": 38,
+   "desc": "Use when starting any conversation - establishes how to find and use skills, requiring skill invocation befor\u2026",
+   "triggers": [],
+   "slots": [
+    "ops"
+   ],
+   "group": "ops",
+   "placed_by": "rule",
+   "note": "superpowers' auto-trigger entry point: TENSION with GSD as spine - do not install both auto-triggering spines in one project"
+  },
+  {
+   "name": "ux-copy",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/ux-copy",
+   "bytes": 3430,
+   "tokens": 858,
+   "desc_tokens": 67,
+   "desc": "Write or review UX copy \u2014 microcopy, error messages, empty states, CTAs.",
+   "triggers": [
+    "write copy for",
+    "what should this button say?",
+    "review this error message"
+   ],
+   "slots": [
+    "execute"
+   ],
+   "group": "design",
+   "placed_by": "rule",
+   "note": "UI/UX domain: microcopy while building screens"
+  },
+  {
+   "name": "verification-before-completion",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/verification-before-completion",
+   "bytes": 3646,
+   "tokens": 912,
+   "desc_tokens": 56,
+   "desc": "Use when about to claim work is complete, fixed, or passing, before committing or creating PRs - requires run\u2026",
+   "triggers": [],
+   "slots": [
+    "verify",
+    "gate"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule",
+   "note": "superpowers; research-verification is its research-side twin"
+  },
+  {
+   "name": "writing-plans",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/writing-plans",
+   "bytes": 10335,
+   "tokens": 2584,
+   "desc_tokens": 21,
+   "desc": "Use when you have a spec or requirements for a multi-step task, before touching code",
+   "triggers": [],
+   "slots": [
+    "plan"
+   ],
+   "group": "superpowers",
+   "placed_by": "rule",
+   "note": "superpowers; spine-level - GSD owns Plan when installed"
+  },
+  {
+   "name": "writing-skills",
+   "tier": "shelved",
+   "path": "/home/adversa/.hydra/stack/shelf/writing-skills",
+   "bytes": 26623,
+   "tokens": 6656,
+   "desc_tokens": 24,
+   "desc": "Use when creating new skills, editing existing skills, or verifying skills work before deployment",
+   "triggers": [],
+   "slots": [
+    "learn"
+   ],
+   "group": "learning",
+   "placed_by": "rule",
+   "note": "superpowers; alternative template to claudeception for extraction"
+  }
+ ]
+}

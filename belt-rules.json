@@ -1,0 +1,807 @@
+{
+  "_about": "Explicit loop-slot placement for every skill hydra-stack ships. Unknown skills fall back to keyword placement in hydra_graph.py (SLOT_KEYWORDS) and show up as `unplaced` in doctor if nothing matches. Slots: start discuss plan execute verify ship learn ops gate consult tool memory.",
+  "groups": {
+    "spine": [
+      "gsd-hydra"
+    ],
+    "engine": [
+      "modulated-loop-orchestrator",
+      "hydra-swarm"
+    ],
+    "memory": [
+      "hydra-graph",
+      "hydra-mem",
+      "wisdom-memory",
+      "theory-keeper",
+      "baton",
+      "napkin",
+      "theorist",
+      "research-base"
+    ],
+    "learning": [
+      "nested-learning",
+      "hydra-evolve",
+      "claudeception",
+      "grow-as-we-go",
+      "context-compact",
+      "research-harvest-verified",
+      "ponytail-debt",
+      "writing-skills"
+    ],
+    "belt": [
+      "schematic",
+      "razor",
+      "adversarial-execution"
+    ],
+    "gate": [
+      "veritas",
+      "research-verification"
+    ],
+    "consult": [
+      "hydra-consult",
+      "call-a-friend"
+    ],
+    "design": [
+      "design-critique",
+      "user-research",
+      "research-synthesis",
+      "design-system",
+      "ux-copy",
+      "accessibility-review",
+      "design-handoff"
+    ],
+    "ops": [
+      "hydra-setup",
+      "setup-audit",
+      "hydra-belt",
+      "ponytail-help",
+      "ponytail-gain",
+      "using-superpowers",
+      "diagnosing-superpowers"
+    ],
+    "style": [
+      "karpathy-guidelines",
+      "ponytail",
+      "ponytail-review",
+      "ponytail-audit"
+    ],
+    "superpowers": [
+      "brainstorming",
+      "writing-plans",
+      "executing-plans",
+      "subagent-driven-development",
+      "dispatching-parallel-agents",
+      "test-driven-development",
+      "using-git-worktrees",
+      "systematic-debugging",
+      "requesting-code-review",
+      "receiving-code-review",
+      "verification-before-completion",
+      "finishing-a-development-branch"
+    ],
+    "tool": [
+      "opera-browser-cli"
+    ],
+    "grace": [
+      "grace-ask",
+      "grace-status",
+      "grace-explainer",
+      "grace-cli",
+      "grace-init",
+      "grace-spec",
+      "grace-plan",
+      "grace-execute",
+      "grace-verification",
+      "grace-reviewer",
+      "grace-fix",
+      "grace-refactor",
+      "grace-refresh",
+      "grace-migrate",
+      "grace-setup-subagents"
+    ],
+    "neo4j": [
+      "neo4j-agent-memory-skill",
+      "neo4j-aura-agent-skill",
+      "neo4j-aura-graph-analytics-skill",
+      "neo4j-aura-provisioning-skill",
+      "neo4j-cli-tools-skill",
+      "neo4j-cypher-skill",
+      "neo4j-document-import-skill",
+      "neo4j-driver-dotnet-skill",
+      "neo4j-driver-go-skill",
+      "neo4j-driver-java-skill",
+      "neo4j-driver-javascript-skill",
+      "neo4j-driver-python-skill",
+      "neo4j-gds-skill",
+      "neo4j-genai-plugin-skill",
+      "neo4j-getting-started-skill",
+      "neo4j-graphql-skill",
+      "neo4j-graphrag-skill",
+      "neo4j-import-skill",
+      "neo4j-kafka-skill",
+      "neo4j-mcp-skill",
+      "neo4j-migration-skill",
+      "neo4j-modeling-skill",
+      "neo4j-nvl-skill",
+      "neo4j-query-tuning-skill",
+      "neo4j-security-skill",
+      "neo4j-snowflake-graph-analytics-skill",
+      "neo4j-spark-skill",
+      "neo4j-spring-data-skill",
+      "neo4j-vector-index-skill"
+    ]
+  },
+  "skills": {
+    "gsd-hydra": {
+      "slots": [
+        "start",
+        "discuss",
+        "plan",
+        "execute",
+        "verify",
+        "ship",
+        "learn"
+      ],
+      "note": "the spine; reads belt --phase at every station"
+    },
+    "hydra-belt": {
+      "slots": [
+        "start",
+        "ops"
+      ],
+      "note": "the router: ~1 KB, the only always-on belt text"
+    },
+    "modulated-loop-orchestrator": {
+      "slots": [
+        "discuss",
+        "plan",
+        "verify"
+      ],
+      "note": "Phase 0 router + fan-out in Discuss; Build Track gate in Plan; Baseline Check + critique in Verify"
+    },
+    "hydra-swarm": {
+      "slots": [
+        "execute"
+      ],
+      "note": "Prime/Hub/Leaf waves; graph contract + admission control (absorbed 2026-10-21)"
+    },
+    "nested-learning": {
+      "slots": [
+        "learn"
+      ]
+    },
+    "hydra-evolve": {
+      "slots": [
+        "learn",
+        "ops"
+      ],
+      "note": "ABSORB on every new skill/repo; CONDENSE every 3rd absorb"
+    },
+    "theory-keeper": {
+      "slots": [
+        "start",
+        "learn"
+      ]
+    },
+    "wisdom-memory": {
+      "slots": [
+        "start",
+        "learn",
+        "memory"
+      ],
+      "note": "Tier 2 is now hydra-graph; Tier 3 (claude.ai) unchanged"
+    },
+    "hydra-graph": {
+      "slots": [
+        "start",
+        "memory",
+        "learn"
+      ],
+      "note": "graph context at start; recall before fan-out; ship-tail at Ship"
+    },
+    "hydra-mem": {
+      "slots": [
+        "start",
+        "memory"
+      ],
+      "note": "raw capture via hooks; lookups via search -> timeline -> get"
+    },
+    "hydra-setup": {
+      "slots": [
+        "ops"
+      ]
+    },
+    "setup-audit": {
+      "slots": [
+        "ops",
+        "plan",
+        "learn"
+      ],
+      "note": "ops: after install and when sessions get expensive; plan: agent-readiness check on a new repo (/gsd-onboard); learn: repeated-mistake findings feed nested-learning RETRO"
+    },
+    "baton": {
+      "slots": [
+        "start",
+        "ship"
+      ],
+      "note": "grab-check .baton/ first; drop a baton when the next phase won't start this session"
+    },
+    "napkin": {
+      "slots": [
+        "start",
+        "execute"
+      ],
+      "note": "read .claude/napkin.md at start as a failed_path source"
+    },
+    "theorist": {
+      "slots": [
+        "start",
+        "learn"
+      ],
+      "note": "theory-keeper defers to it when installed (THEORY.MD home)"
+    },
+    "schematic": {
+      "slots": [
+        "plan"
+      ],
+      "note": "brownfield only: branch diff -> spec before Specify"
+    },
+    "razor": {
+      "slots": [
+        "execute",
+        "verify"
+      ],
+      "note": "scope discipline; declined cuts -> FAILED PATHS"
+    },
+    "adversarial-execution": {
+      "slots": [
+        "verify"
+      ],
+      "note": "independent done-gate for user-facing/high-stakes phases; Claude Code only, else 'self-review only'"
+    },
+    "claudeception": {
+      "slots": [
+        "learn"
+      ],
+      "note": "skill extraction, only past nested-learning's five gates"
+    },
+    "hydra-consult": {
+      "slots": [
+        "consult",
+        "discuss",
+        "plan",
+        "verify"
+      ],
+      "note": "auto second opinion at loop points; routes to call-a-friend"
+    },
+    "call-a-friend": {
+      "slots": [
+        "consult"
+      ],
+      "note": "manual second opinion (gpt/deepseek/local)"
+    },
+    "veritas": {
+      "slots": [
+        "gate",
+        "start"
+      ],
+      "note": "every upload audited before work starts"
+    },
+    "research-verification": {
+      "slots": [
+        "gate",
+        "verify",
+        "ship"
+      ],
+      "note": "before any number/claim/count is written"
+    },
+    "research-base": {
+      "slots": [
+        "start",
+        "memory"
+      ],
+      "note": "ARS domain: load the research graph at start; same nodes/edges shape as hydra-graph"
+    },
+    "context-compact": {
+      "slots": [
+        "learn",
+        "memory"
+      ],
+      "note": "harvest a long session into the graph at checkpoints"
+    },
+    "research-harvest-verified": {
+      "slots": [
+        "learn",
+        "memory"
+      ],
+      "note": "structured harvest with grounding gate; writes hydra-graph's tables"
+    },
+    "book-to-skill": {
+      "slots": [
+        "learn",
+        "discuss"
+      ],
+      "note": "virgiliojr94/book-to-skill: one book/paper/PDF/docs folder -> on-demand chapter skill"
+    },
+    "skill-builder": {
+      "slots": [
+        "learn",
+        "tool"
+      ],
+      "note": "Skill Seekers 3.10 CLI (uv tool): docs sites/repos/codebases -> skills; always --enhance-level 0, no MCP, no upload"
+    },
+    "video-course-study": {
+      "slots": [
+        "learn",
+        "tool"
+      ],
+      "note": "lecture videos with no subtitles -> local transcripts + OCR'd page text -> per-module study agents -> notes; lint any quiz bank before scoring"
+    },
+    "claude-architect": {
+      "slots": [
+        "discuss",
+        "plan"
+      ],
+      "note": "CCA-F course decisions + course-vs-docs corrections; exam eval showed no gain over the base model (60/60 both), so load on demand"
+    },
+    "grow-as-we-go": {
+      "slots": [
+        "learn"
+      ],
+      "note": "after any skill runs: promised vs produced -> defect node"
+    },
+    "opera-browser-cli": {
+      "slots": [
+        "tool"
+      ],
+      "note": "browser evidence for adversarial-execution's UI checks"
+    },
+    "design-critique": {
+      "slots": [
+        "discuss"
+      ],
+      "note": "UI/UX domain: critique the mockup before Plan"
+    },
+    "user-research": {
+      "slots": [
+        "discuss"
+      ],
+      "note": "UI/UX domain: research plan / interview guide feeds Discuss"
+    },
+    "research-synthesis": {
+      "slots": [
+        "discuss"
+      ],
+      "note": "UI/UX domain: transcripts/tickets -> themes -> decision record"
+    },
+    "design-system": {
+      "slots": [
+        "plan"
+      ],
+      "note": "UI/UX domain: tokens/components consistency gate in Plan"
+    },
+    "ux-copy": {
+      "slots": [
+        "execute"
+      ],
+      "note": "UI/UX domain: microcopy while building screens"
+    },
+    "accessibility-review": {
+      "slots": [
+        "verify"
+      ],
+      "note": "UI/UX domain: WCAG 2.1 AA pass beside the done-gate"
+    },
+    "design-handoff": {
+      "slots": [
+        "ship"
+      ],
+      "note": "UI/UX domain: spec sheet is the Ship artifact for designs"
+    },
+    "karpathy-guidelines": {
+      "slots": [
+        "plan",
+        "execute"
+      ],
+      "note": "surface assumptions in Plan; surgical changes + goal-driven loop in Execute. Overlaps CLAUDE.md 'keep diffs to the task' - one home: CLAUDE.md states the rule, this skill carries the checklist"
+    },
+    "ponytail": {
+      "slots": [
+        "execute"
+      ],
+      "note": "lazy-senior-dev mode for the Implement step; its SessionStart hook injects ~3.5 KB every session - install the skill, enable the hook only if you want the mode flag"
+    },
+    "ponytail-review": {
+      "slots": [
+        "verify"
+      ],
+      "note": "second-stage (code quality) review after spec-compliance review"
+    },
+    "ponytail-audit": {
+      "slots": [
+        "plan"
+      ],
+      "note": "brownfield whole-repo audit before planning; pairs with schematic"
+    },
+    "ponytail-debt": {
+      "slots": [
+        "learn"
+      ],
+      "note": "shortcut: ledger -> failed_path/defect nodes at RETRO"
+    },
+    "ponytail-gain": {
+      "slots": [
+        "tool"
+      ],
+      "note": "one-shot scoreboard; its numbers are the vendor's benchmark [U]"
+    },
+    "ponytail-help": {
+      "slots": [
+        "ops"
+      ]
+    },
+    "brainstorming": {
+      "slots": [
+        "discuss"
+      ],
+      "note": "superpowers; spine-level - use when GSD is not the spine (claude.ai native loop)"
+    },
+    "writing-plans": {
+      "slots": [
+        "plan"
+      ],
+      "note": "superpowers; spine-level - GSD owns Plan when installed"
+    },
+    "executing-plans": {
+      "slots": [
+        "execute"
+      ],
+      "note": "superpowers; spine-level - GSD owns Execute when installed"
+    },
+    "subagent-driven-development": {
+      "slots": [
+        "execute"
+      ],
+      "note": "superpowers; Claude Code only"
+    },
+    "dispatching-parallel-agents": {
+      "slots": [
+        "execute"
+      ],
+      "note": "superpowers; Claude Code only; maps to swarm Hubs"
+    },
+    "test-driven-development": {
+      "slots": [
+        "execute"
+      ],
+      "note": "superpowers; red-first rule's source"
+    },
+    "using-git-worktrees": {
+      "slots": [
+        "execute"
+      ]
+    },
+    "systematic-debugging": {
+      "slots": [
+        "verify"
+      ],
+      "note": "superpowers; run when Verify fails, before any fix plan"
+    },
+    "requesting-code-review": {
+      "slots": [
+        "verify"
+      ]
+    },
+    "receiving-code-review": {
+      "slots": [
+        "verify"
+      ]
+    },
+    "verification-before-completion": {
+      "slots": [
+        "verify",
+        "gate"
+      ],
+      "note": "superpowers; research-verification is its research-side twin"
+    },
+    "finishing-a-development-branch": {
+      "slots": [
+        "ship"
+      ]
+    },
+    "writing-skills": {
+      "slots": [
+        "learn"
+      ],
+      "note": "superpowers; alternative template to claudeception for extraction"
+    },
+    "using-superpowers": {
+      "slots": [
+        "ops"
+      ],
+      "note": "superpowers' auto-trigger entry point: TENSION with GSD as spine - do not install both auto-triggering spines in one project"
+    },
+    "diagnosing-superpowers": {
+      "slots": [
+        "ops"
+      ]
+    },
+    "grace-ask": {
+      "slots": [
+        "start",
+        "memory",
+        "discuss"
+      ],
+      "note": "the 'project expert': cited answers from .grace/ graph + contracts; organ-level, fires only when a project has .grace/ (mcpmarket listing = this skill)"
+    },
+    "grace-status": {
+      "slots": [
+        "start",
+        "ops"
+      ],
+      "note": "project health across .grace/; organ-level"
+    },
+    "grace-explainer": {
+      "slots": [
+        "ops"
+      ],
+      "note": "explains the GRACE methodology; read before adopting it as a spine"
+    },
+    "grace-cli": {
+      "slots": [
+        "tool"
+      ],
+      "note": "optional Bun CLI (@osovv/grace-cli); skills work without it"
+    },
+    "grace-init": {
+      "slots": [
+        "ops"
+      ],
+      "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. init creates .grace/ - adopting it means GRACE owns Spec/Plan/Execute/Verify for that repo"
+    },
+    "grace-spec": {
+      "slots": [
+        "discuss",
+        "plan"
+      ],
+      "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. GraceChangeSpec = its Specify step"
+    },
+    "grace-plan": {
+      "slots": [
+        "plan"
+      ],
+      "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. GraceChangePlan with assertions/scopes/gates"
+    },
+    "grace-execute": {
+      "slots": [
+        "execute"
+      ],
+      "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. "
+    },
+    "grace-verification": {
+      "slots": [
+        "verify"
+      ],
+      "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. deterministic V-M-* entries = its done-gate evidence"
+    },
+    "grace-reviewer": {
+      "slots": [
+        "verify"
+      ],
+      "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. "
+    },
+    "grace-fix": {
+      "slots": [
+        "verify"
+      ],
+      "note": "debug with .grace navigation + assertion evidence"
+    },
+    "grace-refactor": {
+      "slots": [
+        "execute"
+      ],
+      "note": "GRACE 4 (contract-first, .grace/ XML artifacts) is a third spine candidate beside GSD and superpowers: one spine per project. "
+    },
+    "grace-refresh": {
+      "slots": [
+        "learn"
+      ],
+      "note": "drift between repo and .grace current state -> reconciliation change; the GRACE twin of hydra-setup's drift check"
+    },
+    "grace-migrate": {
+      "slots": [
+        "ops"
+      ],
+      "note": "GRACE 3 -> 4 only"
+    },
+    "grace-setup-subagents": {
+      "slots": [
+        "ops"
+      ],
+      "note": "Claude Code subagent presets; TENSION with GSD's own agents"
+    },
+    "neo4j-cypher-skill": {
+      "slots": [
+        "tool",
+        "execute"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-agent-memory-skill": {
+      "slots": [
+        "memory"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-spark-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-migration-skill": {
+      "slots": [
+        "ops"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-document-import-skill": {
+      "slots": [
+        "memory",
+        "learn"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-security-skill": {
+      "slots": [
+        "verify"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-driver-javascript-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-getting-started-skill": {
+      "slots": [
+        "ops"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-genai-plugin-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-snowflake-graph-analytics-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-query-tuning-skill": {
+      "slots": [
+        "verify"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-aura-graph-analytics-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. PAID cloud - off by default"
+    },
+    "neo4j-driver-go-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-vector-index-skill": {
+      "slots": [
+        "memory"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-aura-provisioning-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. PAID cloud provisioning - never run by hydra-setup"
+    },
+    "neo4j-driver-python-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-driver-dotnet-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-aura-agent-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-driver-java-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-spring-data-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-cli-tools-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-kafka-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-graphql-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-nvl-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. driver/framework reference; load only when writing code against Neo4j"
+    },
+    "neo4j-gds-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-graphrag-skill": {
+      "slots": [
+        "memory"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-import-skill": {
+      "slots": [
+        "tool"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-mcp-skill": {
+      "slots": [
+        "ops"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "neo4j-modeling-skill": {
+      "slots": [
+        "plan"
+      ],
+      "note": "Neo4j is an optional MIRROR of graph.db (`hydra_graph.py export --format neo4j`, idempotent MERGE, self-hosted Docker only by default; Aura is a paid cloud and off by default). The graph of record stays stdlib SQLite. "
+    },
+    "continuous-learning": {
+      "slots": [
+        "learn"
+      ],
+      "group": "learning",
+      "note": "the upstream name of blader/Claudeception's skill (its SKILL.md says name: continuous-learning); your tuned copy is `claudeception`. Keep one."
+    }
+  }
+}
