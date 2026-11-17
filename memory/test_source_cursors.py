@@ -1,4 +1,4 @@
-import importlib.util,sqlite3,tempfile,unittest
+import importlib.util,json,os,sqlite3,subprocess,sys,tempfile,unittest
 from pathlib import Path
 spec=importlib.util.spec_from_file_location('hg',str(Path(__file__).with_name('hydra_graph.py')));hg=importlib.util.module_from_spec(spec);spec.loader.exec_module(hg)
 def source(path,rows):
@@ -8,6 +8,17 @@ def source(path,rows):
 class Cursors(unittest.TestCase):
  def setUp(self):self.t=tempfile.TemporaryDirectory();self.r=Path(self.t.name);self.g=hg.Graph(self.r/'graph.db')
  def tearDown(self):self.g.db.close();self.t.cleanup()
+ def test_explicit_bridge_project_exports_from_unrelated_cwd(self):
+  p=self.r/'mem.db';source(p,[(1,'selected','Selected project retained observation'),(2,'other','Other retained observation')])
+  root=self.r/'unrelated';root.mkdir();vault=self.r/'vault';vault.mkdir()
+  env=dict(os.environ,HYDRA_HOME=str(self.r/'hydra-home'),HYDRA_GRAPH_DB=str(self.g.path),HYDRA_MEM_DB=str(p),HYDRA_VAULT=str(vault),HYDRA_BRIDGE_PROJECT='selected')
+  result=subprocess.run([sys.executable,str(Path(hg.__file__)),'--json','promote','--project-root',str(root),'--no-embed'],env=env,cwd=root,capture_output=True,text=True,timeout=10)
+  self.assertEqual(result.returncode,0,result.stderr)
+  out=json.loads(result.stdout);self.assertEqual(out['vault_export']['written'],1)
+  self.assertTrue(list((vault/'Hydra Wisdom'/'selected').rglob('*.md')))
+  self.assertEqual(self.g.db.execute("select count(*) from nodes where project='other'").fetchone()[0],0)
+  context=subprocess.run([sys.executable,str(Path(hg.__file__)),'context','--project-root',str(root)],env=env,cwd=root,capture_output=True,text=True,timeout=10)
+  self.assertNotIn('Selected project retained observation',context.stdout)
  def test_larger_legacy_checkpoint_does_not_skip_current_source(self):
   self.g.set_state('hydra-mem.last_id','16354');p=self.r/'mem.db';source(p,[(1,'arch','Current selected memory source contains a retained observation')])
   self.assertEqual(hg.promote(self.g,p)['added'],1);self.assertEqual(hg.promote(self.g,p)['added'],0)

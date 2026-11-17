@@ -32,6 +32,12 @@ anchor detects many database replacements/restores; this is not a complete
 database identity check when the replacement preserves that anchor. Source
 observations are never deleted by promotion.
 
+For explicit saves from a different working directory, Hydra-mem supplies
+`HYDRA_BRIDGE_PROJECT` to its detached bridge process. The `promote` command
+honors it unless `--project` is given, and scopes embedding/vault export to the
+saved project. Context and root-keyed caches retain working-root scope. Planning
+files from an unrelated working root are not imported by that scoped promotion.
+
 Run the portable temporary-store tests with:
 
 ```bash

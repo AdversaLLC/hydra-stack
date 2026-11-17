@@ -1867,9 +1867,11 @@ def main(argv=None) -> int:
     elif a.cmd == "promote":
         # The bridge contract: hydra_mem.py spawns `promote --project-root R` detached at Stop/SessionEnd,
         # then `context`. So promote runs the whole tail: pull -> link -> embed -> vault -> cache.
-        out = promote(g, Path(a.mem) if a.mem else mem_db_path(), a.project)
+        requested_project = a.project or os.environ.get("HYDRA_BRIDGE_PROJECT")
+        proj = requested_project or proj
+        out = promote(g, Path(a.mem) if a.mem else mem_db_path(), requested_project)
         out["links"] = auto_link(g, proj)
-        if (Path(root) / ".planning").is_dir():
+        if proj == project_name(root) and (Path(root) / ".planning").is_dir():
             out["gsd"] = gsd_import(g, root)
         vp = vault_path()
         if vp and not a.no_vault:
