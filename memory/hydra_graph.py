@@ -504,16 +504,27 @@ class Graph:
 
 def promote(g: Graph, mem: Path, project: str | None = None, session_cap: int = BURST_LIMIT) -> dict:
     """Copy new wisdom rows from hydra-mem's mem.db into the graph. Idempotent via a watermark on
-    observations.id plus the hash dedupe. Per-session burst control quarantines the overflow."""
-    out = {"added": 0, "dup": 0, "quarantined": 0, "burst": 0, "last_id": int(g.state("hydra-mem.last_id", "0"))}
+    source/project-specific observations.id cursor plus hash dedupe.
+    Cursor anchors detect restored/replaced databases without altering source data.
+    Per-session burst control quarantines the overflow."""
+    source_key = hashlib.sha256(json.dumps([str(mem.resolve()), project]).encode()).hexdigest()[:24]
+    cursor_key = "hydra-mem.cursor." + source_key
+    cursor = json.loads(g.state(cursor_key) or "{}")
+    out = {"added": 0, "dup": 0, "quarantined": 0, "burst": 0, "last_id": int(cursor.get("last_id", 0))}
     if not mem.is_file():
         out["error"] = f"mem.db not found: {mem}"
         return out
     src = sqlite3.connect(f"file:{mem}?mode=ro", uri=True, timeout=5)
     src.row_factory = sqlite3.Row
+    maximum = int(src.execute("SELECT coalesce(max(id),0) FROM observations").fetchone()[0])
+    anchor_id = cursor.get("anchor_id", out["last_id"])
+    anchor = src.execute("SELECT hash FROM observations WHERE id=?", (anchor_id,)).fetchone()
+    if out["last_id"] > maximum or (cursor.get("anchor") and (not anchor or anchor["hash"] != cursor["anchor"])):
+        out["last_id"] = 0
+        out["reconciled"] = True
     ph = ",".join("?" * len(WISDOM_KINDS))
-    sql = f"SELECT * FROM observations WHERE id>? AND type IN ({ph}) "
-    params: list = [out["last_id"], *WISDOM_KINDS]
+    sql = f"SELECT * FROM observations WHERE id>? AND id<=? AND type IN ({ph}) "
+    params: list = [out["last_id"], maximum, *WISDOM_KINDS]
     if project:
         sql += "AND project=? "
         params.append(project)
@@ -524,11 +535,13 @@ def promote(g: Graph, mem: Path, project: str | None = None, session_cap: int = 
         if not text.strip():
             continue
         sid = r["session"] or "nosession"
-        per_session[sid] = per_session.get(sid, 0) + 1
         title = clip(text.split("\n", 1)[0], 90)
         conf, ex = provenance(r["conf"] or "U", text, agent="hook")   # tier B3
+        ex.update({"source_db": str(mem.resolve()), "observation_id": r["id"]})
         nid, outcome = g.add(r["type"], title, text, project=r["project"], source=f"hydra-mem:{r['id']}",
                              conf=conf, tags=r["tags"] or "", session=sid, ts=r["ts"], extra=ex)
+        if outcome == "add":
+            per_session[sid] = per_session.get(sid, 0) + 1
         if outcome == "add" and per_session[sid] > session_cap:
             g.set_status(nid, "quarantined", "hydra-graph", f"burst: >{session_cap} wisdom rows in session {sid}")
             out["burst"] += 1
@@ -539,14 +552,15 @@ def promote(g: Graph, mem: Path, project: str | None = None, session_cap: int = 
             if t and "protected" not in (t["tags"] or "").split(","):
                 retire(g, nid, m.group(1))
         out[{"add": "added", "dup": "dup", "quarantined": "quarantined", "reference": "added"}[outcome]] += 1
-        if not project:
-            out["last_id"] = max(out["last_id"], r["id"])
-    if not project:
-        mx = src.execute("SELECT max(id) FROM observations").fetchone()[0] or 0
-        out["last_id"] = max(out["last_id"], int(mx))
+    # The query is bounded by the initial maximum; later appends stay for the next pass.
+    out["last_id"] = maximum
+    anchor = src.execute(f"SELECT id,hash FROM observations WHERE id<=? AND type IN ({ph}) ORDER BY id DESC LIMIT 1", [maximum, *WISDOM_KINDS]).fetchone()
     src.close()
+    g.set_state(cursor_key, json.dumps({"last_id": maximum, "anchor_id": anchor["id"] if anchor else None, "anchor": anchor["hash"] if anchor else None}))
+    # Keep the old aggregate as compatibility metadata; never lower another source's watermark.
     if not project:
-        g.set_state("hydra-mem.last_id", str(out["last_id"]))
+        legacy = int(g.state("hydra-mem.last_id", "0"))
+        g.set_state("hydra-mem.last_id", str(max(legacy, maximum)))
     g.set_state("hydra-mem.last_promote", now_iso())
     g.commit()
     return out
@@ -829,6 +843,10 @@ def fmt_recall(results: list[dict], tier: str) -> str:
         flag = " QUARANTINED" if r["status"] == "quarantined" else ""
         out.append(f"- {r['id']} [{r['conf']} {r['trust']}{flag}] {sanitize_for_context(r['title'])}"
                    + (f" (via {r['via']})" if r["via"] != "match" else ""))
+        if r["kind"] == "file" and r.get("body", "").startswith("Source file: "):
+            origin, _, excerpt = r["body"].partition("\n\n")
+            out.append("    source: " + sanitize_for_context(origin))
+            out.append("    text: " + sanitize_for_context(excerpt))
         if r["edges"]:
             out.append("    edges: " + ", ".join(r["edges"][:4]))
         if r.get("evidence"):   # tier B3: what backs the claim, shown as data
@@ -968,6 +986,108 @@ def vault_export(g: Graph, vault: Path, project: str | None = None) -> dict:
     return out
 
 
+def source_import(g: Graph) -> dict:
+    """Index explicitly selected Markdown files as read-only source chunks.
+
+    Derived chunks never write back to their source or get exported as wisdom.
+    Existing poisoning/quarantine rules still apply; no approvals are inferred.
+    """
+    out = {"added": 0, "unchanged": 0, "superseded": 0, "quarantined": 0, "links": 0, "errors": []}
+    cfg = load_config()
+    sources = cfg.get("vault_readonly_sources", [])
+    for entry in sources:
+        path = expand(entry) if isinstance(entry, str) else None
+        if not path:
+            out["errors"].append("invalid source entry")
+            continue
+        try:
+            path = path.absolute()
+            if path.suffix.lower() != ".md" or path.resolve() != path or not path.is_file():
+                raise ValueError("source must be a real Markdown file, not a symlink")
+            if path.stat().st_size > 256 * 1024:
+                raise ValueError("source exceeds 256 KiB pilot limit")
+            text = path.read_text(encoding="utf-8")
+            # Keep original documents unchanged; do not put common credential values in memory.
+            text = re.sub(r"<private>.*?</private>", "[private]", text, flags=re.I | re.S)
+            text = re.sub(r"-----BEGIN [A-Z ]*PRIVATE KEY-----.*?-----END [A-Z ]*PRIVATE KEY-----", "[private key redacted]", text, flags=re.S)
+            text = re.sub(r"(?im)(\b(?:password|passwd|api[_-]?key|(?:access[_-]?)?token|client[_-]?secret)[\"']?\s*[:=]\s*)[^\n]+", r"\1[redacted]", text)
+            text = re.sub(r"(?i)(\bBearer\s+)[A-Za-z0-9._~+/=-]+", r"\1[redacted]", text)
+            text = re.sub(r"\b(?:sk-(?:proj-)?[A-Za-z0-9_-]{16,}|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|xox[baprs]-[A-Za-z0-9-]{12,})\b", "[redacted credential]", text)
+            source_id = hashlib.sha256(str(path).encode()).hexdigest()[:16]
+            digest = hashlib.sha256(text.encode()).hexdigest()
+            state_key = "source.file." + source_id
+            state = json.loads(g.state(state_key) or "{}")
+            if state.get("hash") == digest and state.get("import_version") == 2:
+                out["unchanged"] += 1
+                continue
+            # Screen the whole document before splitting so boundaries cannot hide an override.
+            # Size alone is handled by chunking; all other quarantine rules still apply.
+            document_reasons = [r for r in screen(text, "vault") if r != "oversized"]
+            chunks = []
+            for start in range(0, len(text), 700):
+                chunk = text[start:start + 700].strip()
+                if chunk:
+                    chunks.append((start, chunk))
+            ids = []
+            for index, (start, chunk) in enumerate(chunks):
+                line = text.count("\n", 0, start) + 1
+                body = f"Source file: {path}\nApproximate starting line: {line}\n\n{chunk}"
+                nid, result = g.add("file", f"{path.stem} — source chunk {index + 1}", body,
+                                    project=cfg.get("vault_source_project", "arch"), source="vault:" + str(path),
+                                    conf="U", tags="source-document,read-only", node_id=f"file/source-{source_id}/{index}-{digest[:12]}",
+                                    status="quarantined" if document_reasons else None,
+                                    extra={"source_path": str(path), "source_hash": digest, "chunk": index,
+                                           "read_only": True, "document_screen": document_reasons})
+                node = g.get(nid)
+                if result == "dup" and "protected" not in (node["tags"] or "").split(","):
+                    if document_reasons and node["status"] == "active":
+                        g.set_status(nid, "quarantined", "source-import", ";".join(document_reasons))
+                        out["quarantined"] += 1
+                    elif node["status"] == "superseded" and not document_reasons and not screen(node["title"] + "\n" + node["body"], node["trust"]):
+                        transition = g.db.execute("SELECT actor,op FROM audit WHERE node_id=? AND op LIKE 'status:%' ORDER BY seq DESC LIMIT 1", (nid,)).fetchone()
+                        if transition and transition["actor"] == "source-import" and transition["op"] == "status:superseded":
+                            g.set_status(nid, "active", "source-import", "Source document reverted to this version")
+                ids.append(nid)
+                out["quarantined" if result == "quarantined" else "added"] += result != "dup"
+                if index:
+                    g.link(nid, ids[0], "part_of", "source-import")
+            for old in state.get("ids", []):
+                old_node = g.get(old)
+                if (old not in ids and old_node and old_node["status"] == "active"
+                        and old_node["source"] == "vault:" + str(path)
+                        and "protected" not in (old_node["tags"] or "").split(",")):
+                    g.set_status(old, "superseded", "source-import", "Source document changed; old derived chunk retained as history")
+                    out["superseded"] += 1
+            g.set_state(state_key, json.dumps({"path": str(path), "hash": digest, "ids": ids, "import_version": 2}))
+        except (OSError, ValueError, TypeError) as exc:
+            out["errors"].append({"path": str(path), "error": str(exc)})
+    # Resolve explicit Obsidian links between selected sources; no broad fuzzy edges.
+    anchors = {}
+    for entry in sources:
+        path = expand(entry) if isinstance(entry, str) else None
+        if not path:
+            continue
+        sid = hashlib.sha256(str(path.absolute()).encode()).hexdigest()[:16]
+        state = json.loads(g.state("source.file." + sid) or "{}")
+        if state.get("ids"):
+            anchors[path.stem.lower()] = state["ids"][0]
+    for entry in sources:
+        path = expand(entry) if isinstance(entry, str) else None
+        if not path or path.stem.lower() not in anchors:
+            continue
+        try:
+            if not path.is_file() or path.resolve() != path.absolute() or path.stat().st_size > 256 * 1024:
+                continue
+            for target in re.findall(r"\[\[([^\]|#]+)", path.read_text(encoding="utf-8")):
+                target_id = anchors.get(Path(target).name.lower())
+                if target_id and g.link(anchors[path.stem.lower()], target_id, "mentions", "source-import"):
+                    out["links"] += 1
+        except (OSError, ValueError):
+            continue
+    g.commit()
+    return out
+
+
 def vault_import(g: Graph, vault: Path) -> dict:
     """Read notes under the three hydra folders plus three brain/ files. A note with hydra_id updates
     its node body (vault wins on body); one without becomes a `vault:` node. Wikilinks -> mentions."""
@@ -1031,6 +1151,8 @@ def vault_import(g: Graph, vault: Path) -> dict:
                         break
         if dst and g.link(src, dst, "mentions", "vault"):
             out["edges"] += 1
+    if load_config().get("vault_readonly_sources"):
+        out["source_documents"] = source_import(g)
     g.set_state("vault.last_import", now_iso())
     g.commit()
     return out
@@ -1747,14 +1869,14 @@ def main(argv=None) -> int:
         # then `context`. So promote runs the whole tail: pull -> link -> embed -> vault -> cache.
         out = promote(g, Path(a.mem) if a.mem else mem_db_path(), a.project)
         out["links"] = auto_link(g, proj)
-        if not a.no_embed:
-            out["embed"] = embed(g, proj)
         if (Path(root) / ".planning").is_dir():
             out["gsd"] = gsd_import(g, root)
         vp = vault_path()
         if vp and not a.no_vault:
             out["vault_import"] = vault_import(g, vp)
             out["vault_export"] = vault_export(g, vp, proj)
+        if not a.no_embed:
+            out["embed"] = embed(g, proj)
         out["cache"] = str(write_cache(g, root))
     elif a.cmd == "embed":
         out = embed(g, a.project)
