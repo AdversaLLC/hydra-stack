@@ -1,0 +1,24 @@
+# Glossary
+
+- **Agent SDK**: the Claude Code harness as a library for your own agents (d0).
+- **Blast radius**: everything that depends on a failed output (d5).
+- **Calibration / ECE**: whether stated confidence matches observed accuracy; ECE is the bin-weighted gap (d5).
+- **Citation chaining**: a claim's source stays attached through every hop (d5).
+- **CLAUDE.md**: standing instructions, concatenated and delivered as a user message (d3).
+- **Context-free failure**: a delegate with no usable inputs fails or invents context (d1).
+- **`context: fork`**: runs a skill or command body as an isolated subagent without history (d3).
+- **Explore**: built-in read-only subagent that skips CLAUDE.md (d3).
+- **Flag list / skip list**: named patterns to report / neighbours to ignore (d2).
+- **Gate**: code checks plus a handoff that block a transition until conditions hold (d1).
+- **Hook**: your code at a lifecycle event (PreToolUse, PostToolUse, Stop…) (d1, d3).
+- **MCP**: Model Context Protocol; servers expose tools, resources, and prompts (d4).
+- **Message Batches**: asynchronous bulk requests at about half price (d2).
+- **Pinned facts**: IDs and constraints carried verbatim across boundaries (d5).
+- **Provenance**: source, time, confidence, and agent attached to a claim (d5).
+- **Resource (MCP)**: read-only context addressed by URI (d4).
+- **Skill**: know-how chosen by its description; the body loads on use (d3).
+- **sourceData**: the actual content or paths a subagent needs (d1).
+- **stop_reason**: why a response ended; drives each loop branch (d0).
+- **Strict tool / structured outputs**: schema-guaranteed tool input / response JSON (d2).
+- **`tool_choice`**: `auto`, `any`, a named tool, or `none` (d2).
+- **`tool_result`**: a user-message block answering a `tool_use` id; `is_error` marks failure (d0, d4).

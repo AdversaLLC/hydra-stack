@@ -1,0 +1,47 @@
+# Glossary
+
+- **@Argument / @Arguments** — bind one schema argument by name, or all of them into one object (ch02).
+- **`ArgumentValue<T>`** — wrapper that tells *omitted* from *explicit null* from *value*. Server input since 1.1; client input since 2.0 (ch03, ch05, ch08).
+- **APQ marker** — when a request carries `extensions.persistedQuery` and no `query`, `SerializableGraphQlRequest` hands graphql-java the persisted-query marker (2.0.6) (ch04).
+- **@BatchMapping** — batches a nested field across all parents into one loader call. Four return shapes; `maxBatchSize`; no `@Argument` (ch02, P1).
+- **BatchLoaderRegistry** — programmatic DataLoader registration (`forTypePair`, `forName`, `registerMappedBatchLoader`) (ch10, P2, P9).
+- **BFF (backend-for-frontend)** — a GraphQL layer shaped by client screens in front of REST services. The course builds one without naming it (ch10).
+- **ClassNameTypeResolver** — Spring's default resolver for every interface and union. Simple class name = type name, walks interfaces/superclasses, plus `addMapping` and `setClassNameExtractor` (ch04, P11).
+- **ClientGraphQlResponse / ClientResponseField** — client response and per-field view: `getValue`, `getErrors`, `toEntity`, `toEntityList` (ch08).
+- **connection_init** — first graphql-transport-ws message; carries auth payloads (1.3) (ch06).
+- **@ContextValue** — reads a GraphQL-context entry; `required = false` or `Optional` for optional values (ch07).
+- **@ControllerAdvice** — Spring Framework annotation; holds global `@GraphQlExceptionHandler` methods (ch07).
+- **DataFetcher** — graphql-java function that resolves one field; annotated methods are adapted into them (ch04).
+- **DataFetcherExceptionResolver(Adapter)** — global exception-to-error mapping; the Adapter adds synchronous `resolveToSingleError` (ch07).
+- **DataFetchingEnvironment** — per-field context: arguments, source, selection set, context, document, operation (ch04).
+- **DataFetchingFieldSelectionSet** — sub-fields requested below the current field; glob paths `a/b`, `*`, `**` (ch04).
+- **DataLoader** — java-dataloader batching/caching unit behind `@BatchMapping`; injectable as a controller parameter (ch02, P2).
+- **DgsGraphQlClient** — client for DGS codegen types (1.3); several queries per request in 2.0 (ch08).
+- **Document** — the GraphQL request text; loaded by name from `graphql-documents/` (client) or `graphql-test/` (tester) (ch03, ch08, ch09).
+- **ErrorType** — Spring's error categories (BAD_REQUEST, UNAUTHORIZED, FORBIDDEN, NOT_FOUND, INTERNAL_ERROR), shown as `extensions.classification` (ch07).
+- **Error extensions** — free map on a GraphQL error for machine-readable detail (ch07).
+- **ExecutionGraphQlServiceTester** — in-process tester at the engine level; runs subscriptions without a socket (ch09).
+- **Extended scalars** — `graphql-java-extended-scalars` types (Long, Date, DateTime, Object, …); need SDL declaration plus wiring (ch04).
+- **FieldAccessException** — thrown by client decoding when a field is unusable; carries `getResponse()` and `getField()` (ch08).
+- **Fragment** — named reusable selection (ch03); inline `... on Type` for interfaces and unions (ch04, lessons 21 and 27).
+- **GraphiQL** — browser IDE at `/graphiql`; dev only (ch02).
+- **@GraphQlExceptionHandler** — annotated exception handler (1.2), local to a controller or global in `@ControllerAdvice`; sees errors from returned `Mono`/`Flux` (ch07, P4).
+- **GraphQlClientInterceptor** — client-side interceptor for headers, attributes and subscriptions (ch08).
+- **graphql-transport-ws** — the WebSocket sub-protocol Spring implements; legacy Apollo `graphql-ws` sessions are closed (ch06).
+- **Hot / cold / replay** — cold: the source re-runs per subscriber; hot: one shared source; replay: cached history (`cache(n)`) (ch06).
+- **HttpGraphQlClient / HttpSyncGraphQlClient** — reactive (WebClient) and blocking (RestClient, 1.3) HTTP clients (ch08).
+- **HttpGraphQlTester / WebGraphQlTester / WebSocketGraphQlTester** — testers for the HTTP stack (no subscriptions), the web layer in-process, and real sockets (ch09).
+- **Input type** — `input` object for structured arguments; cannot implement interfaces or join unions (ch02, ch05).
+- **Interface / Union** — abstract types; shared fields vs none. Uncovered union members return `{}` (ch04).
+- **N+1 problem** — one call for parents plus one per parent for children (ch02).
+- **Operation name** — label for a request; a high-cardinality observation tag in 2.0.6 (ch03).
+- **Operation (document) caching** — skip parse+validate for repeated documents via graphql-java `PreparsedDocumentProvider` (ch04, P12).
+- **ResponseError** — an entry of `errors[]`: message, locations, path (uses aliases), `getErrorType()`, extensions (ch07, ch09).
+- **RuntimeWiringConfigurer** — bean to register scalars, type resolvers and programmatic fetchers (ch04).
+- **@SchemaMapping** — binds a field of any type; `typeName` inferred from the source class or set at class level (ch02).
+- **SchemaMappingInspector** — 1.2+ startup check for unmapped fields and stray registrations; 2.0 adds nullability checks (ch02).
+- **SSE transport** — subscriptions over Server-Sent Events (1.3) (ch06).
+- **SubscriptionExceptionResolver(Adapter)** — maps errors raised inside a subscription stream (ch06).
+- **ValidationHelper** — applies Jakarta method validation to controller methods; throws an unmapped `ConstraintViolationException` (ch07).
+- **WebGraphQlInterceptor** — server interceptor: headers/cookies → GraphQL context; response headers (ch07).
+- **WebSocketGraphQlClient** — subscription client over WebSocket; `keepAlive` (1.3) (ch08).
